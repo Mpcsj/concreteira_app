@@ -7,8 +7,9 @@ import {
 import colors from '../styles/colors'
 
 export default props =>{
+    console.log('props recebido: ',props)
     return(
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={()=>props.click()}>
             <Text style={styles.text}>{props.text}</Text>
         </TouchableOpacity>
     )

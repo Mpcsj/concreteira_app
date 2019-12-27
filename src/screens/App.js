@@ -22,7 +22,7 @@ import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 
-const App= () => {
+const App= ({navigation}) => {
   return (
       <SafeAreaView>
         <ScrollView>
@@ -37,8 +37,10 @@ const App= () => {
             <View style={styles.title_container}>
               <Text style={styles.title_style}>{getTitulo()}</Text>
             </View>
-            <ButtonNextScreen text='Executar'/>
-            <ButtonNextScreen text='Cadastrar'/>
+            <ButtonNextScreen text='Executar' click ={()=>{
+              navigation.navigate('TelaExecutar')
+            }}/>
+            <ButtonNextScreen text='Cadastrar' click={()=>navigation.navigate('TelaCadastro')}/>
             </View>
         </ScrollView>
         </SafeAreaView>
