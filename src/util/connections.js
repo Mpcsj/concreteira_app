@@ -1,3 +1,3 @@
 export default {
-    url_server: 'http://fce879f1.ngrok.io/'
+    url_server: 'https://be0b48f7.ngrok.io/'
 }

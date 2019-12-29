@@ -52,12 +52,12 @@ class Tela1Executar extends Component {
                 <Content>
                 <View style={styles.container}>
                     <LoadComponent loading={this.state.is_loading} />
-                    <CompDropDownMenu title={'cimento'} data={this.state.cimento}/>
-                    <CompDropDownMenu title={'areia1'} data={this.state.areia}/>
-                    <CompDropDownMenu title={'areia2'} data={this.state.areia}/>
-                    <CompDropDownMenu title={'brita1'} data={this.state.brita}/>
-                    <CompDropDownMenu title={'brita2'} data={this.state.brita}/>
-                    <CompDropDownMenu title={'aditivo'} data={this.state.aditivo}/>
+                    <CompDropDownMenu title={'cimento'} data={this.state.cimento} process_callback={()=>{}}/>
+                    <CompDropDownMenu title={'areia1'} data={this.state.areia} process_callback={()=>{}}/>
+                    <CompDropDownMenu title={'areia2'} data={this.state.areia} process_callback={()=>{}}/>
+                    <CompDropDownMenu title={'brita1'} data={this.state.brita} process_callback={()=>{}}/>
+                    <CompDropDownMenu title={'brita2'} data={this.state.brita} process_callback={()=>{}}/>
+                    <CompDropDownMenu title={'aditivo'} data={this.state.aditivo} process_callback={()=>{}}/>
                 </View>
                 </Content>
                 <Footer style={styles.footer}>

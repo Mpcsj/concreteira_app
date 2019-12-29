@@ -14,6 +14,9 @@ export default props =>{
             <Dropdown
                 label={props.title}
                 data = {reescreveLista(props.data)}
+                onChangeText={(value,idx,data)=>{
+                    props.process_callback(value,idx)
+                }}
             />
         </View>
     )
