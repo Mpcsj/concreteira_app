@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import colors from '../styles/colors'
+import {key_materiais} from '../util/constants'
 import { View, StyleSheet, Alert ,Text,TouchableOpacity} from 'react-native'
 import {Container,Footer,Content} from 'native-base'
 import LoadComponent from '../components/Loader'
@@ -14,7 +15,13 @@ class Tela1Executar extends Component {
         areia: [],
         brita: [],
         aditivo: [],
-        is_loading: true
+        is_loading: true,
+        curr_cimento:'',
+        curr_areia1:'',
+        curr_areia2:'',
+        curr_brita1:'',
+        curr_brita2:'',
+        curr_aditivo:'',
     }
     constructor() {
         super()
@@ -47,7 +54,25 @@ class Tela1Executar extends Component {
     }
 
     nextStage=(navigator)=>{
-        navigator.navigate('TelaResultados')
+        let materiais = {
+            cimento:this.state.curr_cimento,
+            areia1:this.state.curr_areia1,
+            areia2:this.state.curr_areia2,
+            brita1:this.state.curr_brita1,
+            brita2:this.state.curr_brita2,
+            aditivo:this.state.curr_aditivo
+        }
+        if(materiais.cimento === ''){
+            Alert.alert('Oops','Favor selecionar algum tipo de cimento')
+        }else if(materiais.areia1 === ''){
+            Alert.alert('Oops','Favor selecionar pelo menos um tipo de areia')
+        }else if(materiais.brita1==='' || materiais.brita2 === ''){
+            Alert.alert('Oops','Favor selecionar os tipos de brita')
+        }else if(materiais.aditivo === ''){
+            Alert.alert('Oops','Favor selecionar algum aditivo')
+        }else{
+            navigator.navigate('TelaResultados',{key_materiais:materiais})
+        }
     }
     render() {
         return (
@@ -55,12 +80,12 @@ class Tela1Executar extends Component {
                 <Content>
                 <View style={styles.container}>
                     <LoadComponent loading={this.state.is_loading} />
-                    <CompDropDownMenu title={'cimento'} data={this.state.cimento} process_callback={()=>{}}/>
-                    <CompDropDownMenu title={'areia1'} data={this.state.areia} process_callback={()=>{}}/>
-                    <CompDropDownMenu title={'areia2'} data={this.state.areia} process_callback={()=>{}}/>
-                    <CompDropDownMenu title={'brita1'} data={this.state.brita} process_callback={()=>{}}/>
-                    <CompDropDownMenu title={'brita2'} data={this.state.brita} process_callback={()=>{}}/>
-                    <CompDropDownMenu title={'aditivo'} data={this.state.aditivo} process_callback={()=>{}}/>
+                    <CompDropDownMenu title={'cimento'} data={this.state.cimento} process_callback={(value)=>{this.setState({curr_cimento:value})}}/>
+                    <CompDropDownMenu title={'areia1'} data={this.state.areia} process_callback={(value)=>{this.setState({curr_areia1:value})}}/>
+                    <CompDropDownMenu title={'areia2'} data={this.state.areia} process_callback={(value)=>{this.setState({curr_areia2:value})}}/>
+                    <CompDropDownMenu title={'brita1'} data={this.state.brita} process_callback={(value)=>{this.setState({curr_brita1:value})}}/>
+                    <CompDropDownMenu title={'brita2'} data={this.state.brita} process_callback={(value)=>{this.setState({curr_brita2:value})}}/>
+                    <CompDropDownMenu title={'aditivo'} data={this.state.aditivo} process_callback={(value)=>{this.setState({curr_aditivo:value})}}/>
                 </View>
                 </Content>
                 <Footer style={styles.footer}>
