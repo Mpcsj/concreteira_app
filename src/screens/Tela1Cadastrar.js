@@ -87,7 +87,7 @@ class Tela1Cadastrar extends Component {
                 }),
             }).then(res=>{
                 this.setState({is_loading:false})
-                Alert.alert('Ok','Material cadastrado com sucesso!')
+                Alert.alert('','Material cadastrado com sucesso!')
                 this.setState({...initialState,is_loading:false})
             }).catch(err=>{
                 this.setState({is_loading:false})

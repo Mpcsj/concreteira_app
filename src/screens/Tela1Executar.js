@@ -46,6 +46,9 @@ class Tela1Executar extends Component {
             });
     }
 
+    nextStage=(navigator)=>{
+        navigator.navigate('TelaResultados')
+    }
     render() {
         return (
             <Container>
@@ -61,7 +64,7 @@ class Tela1Executar extends Component {
                 </View>
                 </Content>
                 <Footer style={styles.footer}>
-                    <TouchableOpacity style={styles.btn_footer}>
+                    <TouchableOpacity style={styles.btn_footer} onPress={()=>{this.nextStage(this.props.navigation)}}>
                         <Text style={styles.btn_footer}>Executar</Text>
                     </TouchableOpacity>
                 </Footer>
