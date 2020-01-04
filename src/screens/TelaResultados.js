@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Alert, StyleSheet, TouchableOpacity, Text } from 'react-native'
+import { View, Alert, StyleSheet, ScrollView, Text } from 'react-native'
 import colors from '../styles/colors'
 import MButtom from '../components/ButtonNextScreen'
 import { key_materiais } from '../util/constants'
@@ -18,7 +18,9 @@ export default class TelaResultados extends React.Component {
             tableData: [],
             isLoading: true
         }
-        let materiais = props.navigation.getParam(key_materiais)
+        // let materiais = props.navigation.getParam(key_materiais)
+        console.log('key materiais: ', key_materiais)
+        let materiais = JSON.parse(props.navigation.state.params[key_materiais])
         console.log('materiais passados: ', materiais)
         this.callApiAndGetResult(materiais)
     }
@@ -34,8 +36,20 @@ export default class TelaResultados extends React.Component {
         })
             .then((response) => response.json())
             .then((responseJson) => {
-                //console.log('dados: ',responseJson)
-                this.setState({ isLoading: false })
+                console.log('dados mediante a escolha: ', responseJson)
+                let res = []
+                let rows = ['cimento', 'areia1', 'areia2', 'brita1', 'brita2', 'aditivo']
+                rows.forEach(element => {
+                    console.log('atual: ', element)
+                    let atual = [
+                        responseJson['rico'][element],
+                        responseJson['basico'][element],
+                        responseJson['pobre'][element]
+                    ]
+                    res.push(atual)
+                });
+                this.setState({ isLoading: false, tableData: res })
+
             })
             .catch((error) => {
                 Alert.alert('Oops', 'Erro ao obter dados da API,favor tente novamente')
@@ -47,20 +61,22 @@ export default class TelaResultados extends React.Component {
     render() {
         return (
             <View style={styles.outer_container}>
-                <Loader loading={this.state.isLoading} />
-                <View style={styles.tableStyle}>
-                    <Table borderStyle={{ borderWidth: 1 }}>
-                        <Row data={this.state.tableHead} flexArr={[1, 2, 1, 1]} style={styles.head} textStyle={styles.text} />
-                        <TableWrapper style={styles.wrapper}>
-                            <Col data={this.state.tableTitle} style={styles.title} heightArr={[cellHeight, cellHeight, cellHeight, cellHeight, cellHeight, cellHeight]} textStyle={styles.text} />
-                            <Rows data={this.state.tableData} flexArr={[2, 1, 1]} style={styles.row} textStyle={styles.text} />
-                        </TableWrapper>
-                    </Table>
-                    <View style={styles.layout_botoes}>
-                        <MButtom text='Enviar por email' click={()=>{}}/>
-                        <MButtom text='Gerar PDF' click={()=>{}}/>
+                <ScrollView>
+                    <Loader loading={this.state.isLoading} />
+                    <View style={styles.tableStyle}>
+                        <Table borderStyle={{ borderWidth: 1 }}>
+                            <Row data={this.state.tableHead} flexArr={[1, 2, 1, 1]} style={styles.head} textStyle={styles.text} />
+                            <TableWrapper style={styles.wrapper}>
+                                <Col data={this.state.tableTitle} style={styles.title} heightArr={[cellHeight, cellHeight, cellHeight, cellHeight, cellHeight, cellHeight]} textStyle={styles.text} />
+                                <Rows data={this.state.tableData} flexArr={[2, 1, 1]} style={styles.row} textStyle={styles.text} />
+                            </TableWrapper>
+                        </Table>
+                        <View style={styles.layout_botoes}>
+                            <MButtom text='Enviar por email' click={() => { }} />
+                            <MButtom text='Gerar PDF' click={() => { }} />
+                        </View>
                     </View>
-                </View>
+                </ScrollView>
             </View>
 
         )
@@ -92,7 +108,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginBottom: 27
     },
-    layout_botoes:{
-        marginTop:30
+    layout_botoes: {
+        marginTop: 30
     }
 });
