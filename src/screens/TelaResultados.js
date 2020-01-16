@@ -13,6 +13,7 @@ export default class TelaResultados extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            materiais:{},
             tableHead: ['', 'Rico', 'Básico', 'Pobre'],
             tableTitle: ['Cimento', 'Areia 1', 'Areia 2', 'Brita 1', 'Brita 2', 'Aditivo'],
             tableData: [],
@@ -48,7 +49,7 @@ export default class TelaResultados extends React.Component {
                     ]
                     res.push(atual)
                 });
-                this.setState({ isLoading: false, tableData: res })
+                this.setState({ isLoading: false, tableData: res ,materiais:materiais})
 
             })
             .catch((error) => {
@@ -57,7 +58,11 @@ export default class TelaResultados extends React.Component {
                 this.setState({ isLoading: false })
             });
     }
-
+    getMaterais=()=>{
+        const materiais = this.state.materiais
+        let res= `Materiais usados: Cimento:${materiais.cimento}\nAreia 1:${materiais.areia1}\tAreia 2:${materiais.areia2}\nBrita 1 ${materiais.brita1}\tBrita 2:${materiais.brita2}\nAditivo:${materiais.aditivo}`
+        return res
+    }
     render() {
         return (
             <View style={styles.outer_container}>
@@ -71,6 +76,9 @@ export default class TelaResultados extends React.Component {
                                 <Rows data={this.state.tableData} flexArr={[2, 1, 1]} style={styles.row} textStyle={styles.text} />
                             </TableWrapper>
                         </Table>
+                        <View>
+                        <Text>{this.getMaterais()}</Text>
+                        </View>
                         <View style={styles.layout_botoes}>
                             <MButtom text='Enviar por email' click={() => { }} />
                             <MButtom text='Gerar PDF' click={() => { }} />
