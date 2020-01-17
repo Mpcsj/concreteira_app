@@ -5,8 +5,7 @@ import MButtom from '../components/ButtonNextScreen'
 import { key_materiais } from '../util/constants'
 import connections from '../util/connections'
 import Loader from '../components/Loader'
-//import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'
-import ListResults from '../components/ListResults'
+import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'
 export default class TelaResultados extends React.Component {
     static navigationOptions = {
         title: 'Resultado'
@@ -64,37 +63,25 @@ export default class TelaResultados extends React.Component {
         let res= `Materiais usados: Cimento:${materiais.cimento}\nAreia 1:${materiais.areia1}\tAreia 2:${materiais.areia2}\nBrita 1 ${materiais.brita1}\tBrita 2:${materiais.brita2}\nAditivo:${materiais.aditivo}`
         return res
     }
-    generate_pdf=()=>{
-        fetch(`${connections.url_server}APP/MATERIAL/gen_pdf`, {
-            method: 'Post',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({materiais:this.state.materiais,
-                 values :this.state.tableData
-            })
-        })
-            .then((response) => response.json())
-            .then((responseJson) => {
-                console.log('pdf gerado: ',responseJson)
-            })
-            .catch((error) => {
-                Alert.alert('Oops', 'Erro ao gerar PDF,favor tente novamente mais tarde')
-                console.log('Error via api: ', error)
-                this.setState({ isLoading: false })
-            });
-    }
     render() {
         return (
             <View style={styles.outer_container}>
                 <ScrollView>
                     <Loader loading={this.state.isLoading} />
-                    <ListResults materiais ={this.state.materiais} values = {this.state.tableData}/>
                     <View style={styles.tableStyle}>
+                        <Table borderStyle={{ borderWidth: 1 }}>
+                            <Row data={this.state.tableHead} flexArr={[1, 2, 1, 1]} style={styles.head} textStyle={styles.text} />
+                            <TableWrapper style={styles.wrapper}>
+                                <Col data={this.state.tableTitle} style={styles.title} heightArr={[cellHeight, cellHeight, cellHeight, cellHeight, cellHeight, cellHeight]} textStyle={styles.text} />
+                                <Rows data={this.state.tableData} flexArr={[2, 1, 1]} style={styles.row} textStyle={styles.text} />
+                            </TableWrapper>
+                        </Table>
+                        <View>
+                        <Text>{this.getMaterais()}</Text>
+                        </View>
                         <View style={styles.layout_botoes}>
-                            <MButtom text='Enviar por email' click={()=>{}} />
-                            <MButtom text='Gerar PDF' click={() => {this.generate_pdf() }} />
+                            <MButtom text='Enviar por email' click={() => { }} />
+                            <MButtom text='Gerar PDF' click={() => { }} />
                         </View>
                     </View>
                 </ScrollView>
